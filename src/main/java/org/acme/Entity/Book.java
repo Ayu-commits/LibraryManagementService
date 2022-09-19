@@ -13,7 +13,7 @@ public class Book  {
     private int noOfPages;
     private int noOfBooks;
 
-    @OneToMany(mappedBy="book", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="book", cascade = CascadeType.ALL) // mappedBy ka mtlb mapping keval book ke basic pe hoge
     private List<Transcation> transcations;
 
     public Book() {

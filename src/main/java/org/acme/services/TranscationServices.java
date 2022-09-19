@@ -4,6 +4,7 @@ package org.acme.services;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.acme.Entity.Book;
 import org.acme.Entity.Transcation;
+import org.acme.customException.bookNotAvailable;
 import org.acme.dao.BookRepo;
 import org.acme.dao.TranscationRepo;
 import javax.enterprise.context.ApplicationScoped;
@@ -50,13 +51,14 @@ public class TranscationServices {
         Date date = new Date(System.currentTimeMillis());
         transcation.setIssuedDate(date);
         try {
-             if (book.getId() == bookId) {
+             if (book != null) {
 
-                long transSize = transcationRepo.list("book_id",bookId).size();
+                long transSize = transcationRepo.count("book_id", bookId);//transcationRepo.list("book_id",bookId).size();
                 int count = book.getNoOfBooks();
                if(count <= transSize)
                 {
-                    throw new Exception();
+                    throw new bookNotAvailable();
+                    // BookNotAvilableException custom exceoption - Book is not in stock
                 }
                 transcation.setBook(book);
 

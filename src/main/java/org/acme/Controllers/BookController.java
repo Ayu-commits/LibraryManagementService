@@ -68,7 +68,7 @@ public class BookController {
     }
     @DELETE
     @Path("{id}")
-    @Transactional
+    @Transactional  // if any exception occur previous operation removed automatically
     public Response delBook(@PathParam("id")Long id)
     {
         try{
