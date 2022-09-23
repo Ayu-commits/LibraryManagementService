@@ -25,10 +25,13 @@ public class BookServices {
         try {
 
             obj = this.bookRepo.findById(id);
+            long check = obj.getId();
+            return obj;
         } catch (Exception e){
+            System.out.println("No book found ");
             e.printStackTrace();
+            return null;
         }
-        return obj;
     }
 
     public Book addBook(Book book)

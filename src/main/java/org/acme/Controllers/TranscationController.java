@@ -1,5 +1,6 @@
 package org.acme.Controllers;
 
+import org.acme.customException.BookNotAvailable;
 import org.acme.services.TranscationServices;
 
 import javax.inject.Inject;
@@ -8,8 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
+import static javax.ws.rs.core.Response.Status.*;
 
 
 @Path("/api/")
@@ -32,9 +32,17 @@ public class TranscationController {
                         return Response.status(BAD_REQUEST).build();
                     return Response.ok().build();
 
-            }catch (Exception e)
+            }
+            catch(BookNotAvailable ex){
+                //return Response.ResponseBuilder
+                return Response.status(NO_CONTENT).build();
+            }
+            catch (Exception e)
             {
                 e.printStackTrace();
+                if(e instanceof BookNotAvailable){
+                    return Response.status(NO_CONTENT).build();
+                }
                 return Response.status(INTERNAL_SERVER_ERROR).build();
             }
 

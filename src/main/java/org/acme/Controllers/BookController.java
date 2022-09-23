@@ -39,14 +39,12 @@ public class BookController {
 
     @GET
     @Path("{id}")
-    public Book getBookById(@PathParam("id") Long id) {
+    public Response getBookById(@PathParam("id") Long id) {
         Book book = null;
-        try {
-            book = this.bookServices.getBookById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return book;
+        book = this.bookServices.getBookById(id);
+        if(book == null)
+            return Response.status(NOT_FOUND).build();
+        return Response.ok(book).build();
     }
 
     @POST
@@ -87,7 +85,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response updateBook(@PathParam("id") Long id, Book obj)
+    public Response updateBook( @PathParam("id") Long id, Book obj)
     {
         try {
             Book book = bookServices.updateBook(obj,id); // jb update krna hoga , book id ke sath author id bhi same hona chaiye
